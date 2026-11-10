@@ -1,5 +1,5 @@
 import numpy as np
-
+from typing import List
 
 class LogisticRegressionScratch:
     """Classificador de Regressão Logística vetorial implementado puramente com NumPy.
@@ -10,7 +10,7 @@ class LogisticRegressionScratch:
         tol (float): Tolerância absoluta da variação de perda para parada antecipada.
         weights (np.ndarray | None): Vetor de pesos de forma (n_features,).
         bias (float): Termo de viés escalar.
-        loss_history (List[float]): Histórico do custo (Binary Cross-Entropy) por época.
+        loss_history (list[float]): Histórico do custo (Binary Cross-Entropy) por época.
         converged_epoch (int | None): Época em que o critério de convergência foi atingido.
     """
 
@@ -32,14 +32,14 @@ class LogisticRegressionScratch:
     def _sigmoid(z: np.ndarray) -> np.ndarray:
         """Calcula a ativação sigmoide com corte numérico contra overflow."""
         z_clipped = np.clip(z, -500.0, 500.0)
-        return 1.0 / (1.0 + np.exp(-z_clipped))
+        return np.asarray(1.0 / (1.0 + np.exp(-z_clipped)), dtype=np.float64)
 
     def _compute_loss(self, y_true: np.ndarray, y_pred: np.ndarray) -> float:
         """Calcula a Binary Cross-Entropy garantindo estabilidade via epsilon."""
         eps = 1e-15
         y_pred_safe = np.clip(y_pred, eps, 1.0 - eps)
         m = y_true.shape[0]
-        loss = -(1.0 / m) * np.sum(
+        loss = - (1.0 / m) * np.sum(
             y_true * np.log(y_pred_safe) + (1.0 - y_true) * np.log(1.0 - y_pred_safe)
         )
         return float(loss)
@@ -75,7 +75,6 @@ class LogisticRegressionScratch:
             current_loss = self._compute_loss(y, y_hat)
             self.loss_history.append(current_loss)
 
-            # Critério de parada antecipada (|J_t - J_{t-1}| < tol)
             if len(self.loss_history) > 1:
                 loss_delta = abs(self.loss_history[-1] - self.loss_history[-2])
                 if loss_delta < self.tol:
