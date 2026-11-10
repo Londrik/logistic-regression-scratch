@@ -31,7 +31,7 @@ jobs:
         run: ruff check .
 
       - name: Gate 2 - Strict Type Check (Mypy)
-        run: mypy logistic_regression.py evaluation.py
+        run: mypy --config-file pyproject.toml logistic_regression.py evaluation.py
 
       - name: Gate 3 - Security & AST Vulnerability Scan (Bandit)
         run: bandit -r . -x ./tests
