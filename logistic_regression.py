@@ -1,5 +1,4 @@
 import numpy as np
-from typing import List, Tuple
 
 
 class LogisticRegressionScratch:
@@ -26,7 +25,7 @@ class LogisticRegressionScratch:
         self.tol: float = tol
         self.weights: np.ndarray | None = None
         self.bias: float = 0.0
-        self.loss_history: List[float] = []
+        self.loss_history: list[float] = []
         self.converged_epoch: int | None = None
 
     @staticmethod
@@ -59,13 +58,9 @@ class LogisticRegressionScratch:
             ValueError: Se as dimensões de X e y forem incompatíveis.
         """
         if X.ndim != 2:
-            raise ValueError(
-                f"X deve ter 2 dimensões (m_samples, n_features), recebido: {X.ndim}"
-            )
+            raise ValueError(f"X deve ter 2 dimensões (m_samples, n_features), recebido: {X.ndim}")
         if y.ndim != 1 or X.shape[0] != y.shape[0]:
-            raise ValueError(
-                f"Incompatibilidade dimensional entre X {X.shape} e y {y.shape}"
-            )
+            raise ValueError(f"Incompatibilidade dimensional entre X {X.shape} e y {y.shape}")
 
         m_samples, n_features = X.shape
         self.weights = np.zeros(n_features, dtype=np.float64)

@@ -1,8 +1,9 @@
-import streamlit as st
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+import streamlit as st
+
+from evaluation import compute_classification_metrics, train_test_split
 from logistic_regression import LogisticRegressionScratch
-from evaluation import train_test_split, compute_classification_metrics
 
 
 def generate_synthetic_data(
@@ -42,9 +43,7 @@ with st.sidebar:
 X, y = generate_synthetic_data(samples_per_class, cluster_std)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
 
-model = LogisticRegressionScratch(
-    learning_rate=learning_rate, iterations=iterations, tol=tol
-)
+model = LogisticRegressionScratch(learning_rate=learning_rate, iterations=iterations, tol=tol)
 model.fit(X_train, y_train)
 
 y_pred_train = model.predict(X_train, threshold=threshold)
@@ -98,9 +97,7 @@ with col_p1:
     logit_val = float(np.log(threshold / (1.0 - threshold)))
     x1_vals = np.linspace(X[:, 0].min() - 1, X[:, 0].max() + 1, 100)
     if abs(model.weights[1]) > 1e-6:
-        x2_vals = (logit_val - model.bias - model.weights[0] * x1_vals) / model.weights[
-            1
-        ]
+        x2_vals = (logit_val - model.bias - model.weights[0] * x1_vals) / model.weights[1]
         ax.plot(
             x1_vals,
             x2_vals,
