@@ -1,5 +1,5 @@
 import numpy as np
-from typing import List
+
 
 class LogisticRegressionScratch:
     """Classificador de Regressão Logística vetorial implementado puramente com NumPy.
@@ -39,7 +39,7 @@ class LogisticRegressionScratch:
         eps = 1e-15
         y_pred_safe = np.clip(y_pred, eps, 1.0 - eps)
         m = y_true.shape[0]
-        loss = - (1.0 / m) * np.sum(
+        loss = -(1.0 / m) * np.sum(
             y_true * np.log(y_pred_safe) + (1.0 - y_true) * np.log(1.0 - y_pred_safe)
         )
         return float(loss)
